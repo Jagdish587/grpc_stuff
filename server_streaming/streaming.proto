@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package streaming;
+
+// Request from client
+message LogRequest {
+  string process_name = 1;
+}
+
+// Streamed response from server
+message LogEntry {
+  string message = 1;
+  int32 line_number = 2;
+}
+
+// Service definition
+service LogService {
+  rpc StreamLogs(LogRequest) returns (stream LogEntry);
+}

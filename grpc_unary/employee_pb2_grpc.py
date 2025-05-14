@@ -3,7 +3,7 @@
 import grpc
 import warnings
 
-import helloworld_pb2 as helloworld__pb2
+import employee_pb2 as employee__pb2
 
 GRPC_GENERATED_VERSION = '1.71.0'
 GRPC_VERSION = grpc.__version__
@@ -18,15 +18,15 @@ except ImportError:
 if _version_not_supported:
     raise RuntimeError(
         f'The grpc package installed is at version {GRPC_VERSION},'
-        + f' but the generated code in helloworld_pb2_grpc.py depends on'
+        + f' but the generated code in employee_pb2_grpc.py depends on'
         + f' grpcio>={GRPC_GENERATED_VERSION}.'
         + f' Please upgrade your grpc module to grpcio>={GRPC_GENERATED_VERSION}'
         + f' or downgrade your generated code using grpcio-tools<={GRPC_VERSION}.'
     )
 
 
-class GreeterStub(object):
-    """The greeting service definition.
+class EmployeeServiceStub(object):
+    """Service definition
     """
 
     def __init__(self, channel):
@@ -35,46 +35,45 @@ class GreeterStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.SayHello = channel.unary_unary(
-                '/helloworld.Greeter/SayHello',
-                request_serializer=helloworld__pb2.HelloRequest.SerializeToString,
-                response_deserializer=helloworld__pb2.HelloReply.FromString,
+        self.GetEmployeeInfo = channel.unary_unary(
+                '/employee.EmployeeService/GetEmployeeInfo',
+                request_serializer=employee__pb2.EmployeeRequest.SerializeToString,
+                response_deserializer=employee__pb2.EmployeeResponse.FromString,
                 _registered_method=True)
 
 
-class GreeterServicer(object):
-    """The greeting service definition.
+class EmployeeServiceServicer(object):
+    """Service definition
     """
 
-    def SayHello(self, request, context):
-        """Sends a greeting
-        """
+    def GetEmployeeInfo(self, request, context):
+        """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
 
-def add_GreeterServicer_to_server(servicer, server):
+def add_EmployeeServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'SayHello': grpc.unary_unary_rpc_method_handler(
-                    servicer.SayHello,
-                    request_deserializer=helloworld__pb2.HelloRequest.FromString,
-                    response_serializer=helloworld__pb2.HelloReply.SerializeToString,
+            'GetEmployeeInfo': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetEmployeeInfo,
+                    request_deserializer=employee__pb2.EmployeeRequest.FromString,
+                    response_serializer=employee__pb2.EmployeeResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'helloworld.Greeter', rpc_method_handlers)
+            'employee.EmployeeService', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
-    server.add_registered_method_handlers('helloworld.Greeter', rpc_method_handlers)
+    server.add_registered_method_handlers('employee.EmployeeService', rpc_method_handlers)
 
 
  # This class is part of an EXPERIMENTAL API.
-class Greeter(object):
-    """The greeting service definition.
+class EmployeeService(object):
+    """Service definition
     """
 
     @staticmethod
-    def SayHello(request,
+    def GetEmployeeInfo(request,
             target,
             options=(),
             channel_credentials=None,
@@ -87,9 +86,9 @@ class Greeter(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/helloworld.Greeter/SayHello',
-            helloworld__pb2.HelloRequest.SerializeToString,
-            helloworld__pb2.HelloReply.FromString,
+            '/employee.EmployeeService/GetEmployeeInfo',
+            employee__pb2.EmployeeRequest.SerializeToString,
+            employee__pb2.EmployeeResponse.FromString,
             options,
             channel_credentials,
             insecure,

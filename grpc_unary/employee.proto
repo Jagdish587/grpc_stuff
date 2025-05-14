@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package employee;
+
+// Request message
+message EmployeeRequest {
+  string name = 1;
+  string division = 2;
+}
+
+// Response message
+message EmployeeResponse {
+  string name = 1;
+  string division = 2;
+  string designation = 3;
+  string floor = 4;
+}
+
+// Service definition
+service EmployeeService {
+  rpc GetEmployeeInfo(EmployeeRequest) returns (EmployeeResponse);
+}
+
